@@ -1,0 +1,148 @@
+/*
+ * Tailwind source. Edit this file or classes in index.html, then rebuild:
+ *   npx @tailwindcss/cli@4.1 -i styles/tailwind.input.css -o styles/main.css --minify
+ * The site itself only loads the generated styles/main.css (no build step on deploy).
+ */
+@import "tailwindcss" source(none);
+@source "../index.html";
+@source "../scripts";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Local fallback sized to Inter's metrics so the async web-font swap doesn't shift layout */
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial"), local("ArialMT"), local("Helvetica");
+  size-adjust: 107.12%;
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+}
+
+@theme inline {
+  --font-sans: "Inter", "Inter Fallback", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+}
+
+/* Theme tokens. Light is the default; dark applies via system setting or the toggle. */
+:root {
+  color-scheme: light;
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --surface-2: #f4f4f5;
+  --ink: #18181b;
+  --muted: #52525b;
+  --line: #e4e4e7;
+  --accent: #0369a1;
+  --accent-ink: #ffffff;
+  --accent-text: #0369a1;
+  --accent-soft: #e0f2fe;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    --bg: #0b0b0d;
+    --surface: #131316;
+    --surface-2: #1c1c21;
+    --ink: #f4f4f5;
+    --muted: #a1a1aa;
+    --line: #2a2a30;
+    --accent: #38bdf8;
+    --accent-ink: #04121c;
+    --accent-text: #7dd3fc;
+    --accent-soft: rgb(56 189 248 / 0.12);
+  }
+}
+
+:root.dark {
+  color-scheme: dark;
+  --bg: #0b0b0d;
+  --surface: #131316;
+  --surface-2: #1c1c21;
+  --ink: #f4f4f5;
+  --muted: #a1a1aa;
+  --line: #2a2a30;
+  --accent: #38bdf8;
+  --accent-ink: #04121c;
+  --accent-text: #7dd3fc;
+  --accent-soft: rgb(56 189 248 / 0.12);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent text-accent-ink;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 0.375rem;
+  }
+}
+
+@layer components {
+  .icon {
+    @apply size-5 shrink-0;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-accent text-accent-ink hover:opacity-90;
+  }
+
+  .btn-ghost {
+    @apply border border-line text-ink hover:bg-surface-2;
+  }
+
+  .tag {
+    @apply inline-flex items-center rounded-md border border-line bg-surface px-2.5 py-1 text-xs font-medium text-muted;
+  }
+
+  .section {
+    @apply grid gap-6 border-t border-line py-16 sm:py-20 md:grid-cols-[11rem_1fr] md:gap-10;
+  }
+
+  .section-title {
+    @apply text-sm font-semibold uppercase tracking-widest text-muted md:sticky md:top-24 md:self-start;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    animation: fade-in 0.6s ease-out both;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+}

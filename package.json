@@ -1,0 +1,13 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "description": "Dev-only tooling to regenerate styles/main.css. The site itself has no build step.",
+  "scripts": {
+    "build:css": "tailwindcss -i styles/tailwind.input.css -o styles/main.css --minify",
+    "watch:css": "tailwindcss -i styles/tailwind.input.css -o styles/main.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}
