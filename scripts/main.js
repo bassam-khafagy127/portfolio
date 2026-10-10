@@ -39,3 +39,31 @@ systemDark.addEventListener('change', (event) => {
 });
 
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/**
+ * Nav scroll-spy: mark the link for the section currently under the header.
+ * The last section is forced active at page bottom, since it may be too short
+ * to ever reach the trigger line.
+ */
+const navLinks = [...document.querySelectorAll('header .nav-link[href^="#"]')];
+const spySections = [...new Set(navLinks.map((link) => link.hash))]
+  .map((hash) => document.querySelector(hash))
+  .filter(Boolean);
+
+function updateActiveLink() {
+  const trigger = window.innerHeight * 0.35;
+  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+  let current = null;
+  for (const section of spySections) {
+    if (section.getBoundingClientRect().top <= trigger) current = section;
+  }
+  if (atBottom && spySections.length) current = spySections[spySections.length - 1];
+  for (const link of navLinks) {
+    if (current && link.hash === `#${current.id}`) link.setAttribute('aria-current', 'true');
+    else link.removeAttribute('aria-current');
+  }
+}
+
+window.addEventListener('scroll', updateActiveLink, { passive: true });
+window.addEventListener('resize', updateActiveLink);
+updateActiveLink();
